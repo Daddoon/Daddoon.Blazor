@@ -2,8 +2,31 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Authors>Daddoon</Authors>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Daddoon.Blazor.Extensions.Daddoon.0.1.0.nupkg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Blazor" Version="0.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Blazor.Browser" Version="0.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="artifacts\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="scripts\daddoon.blazor.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="nuget pack Daddoon.Blazor.Extensions.nuspec" />
+  </Target>
 
 </Project>

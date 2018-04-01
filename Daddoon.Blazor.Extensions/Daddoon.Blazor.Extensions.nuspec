@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Daddoon.Blazor.Extensions.Daddoon</id>
+    <version>0.1.0</version>
+    <title>Daddoon.Blazor</title>
+    <authors>Daddoon</authors>
+    <owners>Daddoon</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>https://github.com/Daddoon/Daddoon.Blazor/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/Daddoon/Daddoon.Blazor</projectUrl>
+    <iconUrl>https://github.com/Daddoon/Daddoon.Blazor/raw/master/logo.png</iconUrl>
+    <description>Daddoon methods and extensions helper for Blazor framework</description>
+    <releaseNotes>First release</releaseNotes>
+    <copyright>Copyright 2018</copyright>
+    <tags>Blazor Daddoon.Blazor</tags>
+    <dependencies>
+      <group targetFramework="netstandard2.0">
+        <dependency id="Microsoft.AspNetCore.Blazor" version="0.1.0" />
+        <dependency id="Microsoft.AspNetCore.Blazor.Browser" version="0.1.0" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\Release\netstandard2.0\Daddoon.Blazor.Extensions.dll" target="lib\netstandard2.0\Daddoon.Blazor.Extensions.dll" />
+    <file src="bin\Release\netstandard2.0\scripts\daddoon.blazor.js" target="wwwroot\lib\daddoon" />
+  </files>
+</package>
