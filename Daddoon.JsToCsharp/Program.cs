@@ -31,7 +31,7 @@ namespace Daddoon.JsToCsharp
             StringBuilder sb = new StringBuilder();
 
             //Header
-            sb.Append(@"namespace Daddoon.Blazor.Extensions
+            sb.Append(@"namespace Daddoon.Blazor
                         {
                             public class DaddoonBlazorExtensionScripts : Microsoft.AspNetCore.Blazor.Components.BlazorComponent
                             {

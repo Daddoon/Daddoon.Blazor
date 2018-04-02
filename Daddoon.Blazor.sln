@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27520.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Daddoon.Blazor.Extensions", "Daddoon.Blazor.Extensions\Daddoon.Blazor.Extensions.csproj", "{FC4B6534-7F85-40C1-AC1E-937289E123AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Daddoon.Blazor.Extensions", "Daddoon.Blazor.Extensions\Daddoon.Blazor.csproj", "{FC4B6534-7F85-40C1-AC1E-937289E123AB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Daddoon.JsToCsharp", "Daddoon.JsToCsharp\Daddoon.JsToCsharp.csproj", "{6FCB5D68-6C21-418F-AF7B-F89F30D0079B}"
 EndProject
