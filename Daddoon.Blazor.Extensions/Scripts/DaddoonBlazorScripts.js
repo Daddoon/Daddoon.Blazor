@@ -1,0 +1,1 @@
+﻿Blazor.registerFunction("daddoon_Alert", (message) => { alert(message); });

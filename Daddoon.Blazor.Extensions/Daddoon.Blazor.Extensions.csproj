@@ -7,26 +7,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Daddoon.Blazor.Extensions.0.1.0.nupkg" />
     <None Remove="Daddoon.Blazor.Extensions.Daddoon.0.1.0.nupkg" />
+    <None Remove="Scripts\DaddoonBlazorScripts.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Blazor" Version="0.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Blazor.Browser" Version="0.1.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="artifacts\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="scripts\daddoon.blazor.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <Folder Include="Tool\" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="nuget pack Daddoon.Blazor.Extensions.nuspec" />
+    <Exec Command="nuget pack Daddoon.Blazor.Extensions.nuspec&#xD;&#xA;del /F /S /Q %UserProfile%\.nuget\packages\daddoon.blazor.extensions &gt;nul 2&gt;&amp;1" />
+  </Target>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="&quot;$(ProjectDir)Tool\Daddoon.JsToCsharp.exe&quot; &quot;$(ProjectDir)Scripts\DaddoonBlazorScripts.js&quot; &quot;$(ProjectDir)Components\DaddoonBlazorExtensionScripts.cs&quot;" />
   </Target>
 
 </Project>
