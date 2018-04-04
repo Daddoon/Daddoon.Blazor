@@ -6,6 +6,14 @@
     <Authors>Daddoon</Authors>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Remove="Daddoon.Blazor.Extensions.0.1.0.nupkg" />
     <None Remove="Daddoon.Blazor.Extensions.Daddoon.0.1.0.nupkg" />
@@ -22,7 +30,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="nuget pack Daddoon.Blazor.Extensions.nuspec&#xD;&#xA;del /F /S /Q %UserProfile%\.nuget\packages\daddoon.blazor.extensions &gt;nul 2&gt;&amp;1" />
+    <Exec Command="nuget pack Daddoon.Blazor.nuspec&#xD;&#xA;del /F /S /Q %UserProfile%\.nuget\packages\daddoon.blazor.extensions &gt;nul 2&gt;&amp;1" />
   </Target>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
