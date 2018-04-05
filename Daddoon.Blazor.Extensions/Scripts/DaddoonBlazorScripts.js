@@ -3,23 +3,39 @@
 //Restore jQuery user version to global scope and registering our version here
 d$ = jQuery.noConflict(true);
 
-Blazor.registerFunction('daddoon_jQuery_GetJsonAsync', function (requestUri) {
-    var resultValue = d$.ajax({
-        dataType: "json",
+const daddoon_assemblyName = 'Daddoon.Blazor';
+const daddoon_dispatcher_namespace = 'Daddoon.Blazor.Services.Impl';
+const daddoon_dispatcher_typeName = 'IEHttpClient';
+const daddoon_dispatcher_methodName = 'TaskDispatcher';
+
+const taskDispatcher = Blazor.platform.findMethod(
+    daddoon_assemblyName,
+    daddoon_dispatcher_namespace,
+    daddoon_dispatcher_typeName,
+    daddoon_dispatcher_methodName
+);
+
+function daddoon_dispatchTask(taskId, result) {
+    let taskIdStr = Blazor.platform.toDotNetString(taskId.toString());
+    let resultStr = Blazor.platform.toDotNetString(result);
+    Blazor.platform.callMethod(taskDispatcher, null, [taskIdStr, resultStr]);
+}
+
+Blazor.registerFunction('daddoon_jQuery_GetJsonAsync', function (taskId, requestUri) {
+    d$.ajax({
+        dataType: "text",
         type: "GET",
         url: requestUri,
         data: {},
-        async: false, //Hack at startup
+        async: true,
         success: function (data) {
-            return data;
+            daddoon_dispatchTask(taskId, data);
         },
         error: function () {
-            //TODO
-            console.log("error occured in jQuery_GetJsonAsync");
+            daddoon_dispatchTask(taskId, null);
+            console.log("error occured in jQuery_GetJsonAsync for taskId: " + taskId);
         }
     });
-
-    return resultValue.responseText;
 });
 
 Blazor.registerFunction("daddoon_Alert", function (message) { alert(message); });
