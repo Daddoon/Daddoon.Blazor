@@ -26,8 +26,6 @@ namespace Daddoon.Blazor.Helpers
     {
         static Browser()
         {
-            //Initializing IHttpClient from Daddoon.Blazor
-            
         }
 
         #region Alert
@@ -219,7 +217,7 @@ namespace Daddoon.Blazor.Helpers
             {
                 get
                 {
-                    if (_browserFamily == null)
+                    if (_browserFamily == null && Name != string.Empty)
                     {
                         if (Name == "Internet Explorer")
                         {
@@ -248,7 +246,8 @@ namespace Daddoon.Blazor.Helpers
                 {
                     if (_renderingEngine == null)
                     {
-                        int val = RegisteredFunction.Invoke<int>("daddoon_bowser_renderingengine");
+                        if (!RegisteredFunctionExtension.TryInvoke(out int val, "daddoon_bowser_renderingengine"))
+                            return RenderingEngine.Unknown;
                         _renderingEngine = (RenderingEngine)val;
                     }
                     return _renderingEngine != null ? (RenderingEngine)_renderingEngine: RenderingEngine.Unknown;
@@ -259,7 +258,9 @@ namespace Daddoon.Blazor.Helpers
             {
                 get
                 {
-                    return RegisteredFunction.Invoke<string>("daddoon_bowser_useragent");
+                    if (RegisteredFunctionExtension.TryInvoke(out string result, "daddoon_bowser_useragent"))
+                        return result;
+                    return string.Empty;
                 }
             }
 
@@ -267,7 +268,9 @@ namespace Daddoon.Blazor.Helpers
             {
                 get
                 {
-                    return RegisteredFunction.Invoke<string>("daddoon_bowser_name");
+                    if (RegisteredFunctionExtension.TryInvoke(out string result, "daddoon_bowser_name"))
+                        return result;
+                    return string.Empty;
                 }
             }
 
@@ -275,7 +278,9 @@ namespace Daddoon.Blazor.Helpers
             {
                 get
                 {
-                    return RegisteredFunction.Invoke<string>("daddoon_bowser_version");
+                    if (RegisteredFunctionExtension.TryInvoke(out string result, "daddoon_bowser_version"))
+                        return result;
+                    return string.Empty;
                 }
             }
         }

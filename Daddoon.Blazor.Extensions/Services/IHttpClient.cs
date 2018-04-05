@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Daddoon.Blazor.Services
 {
-    interface IHttpClient : IDisposable
+    public interface IHttpClient : IDisposable
     {
         HttpRequestHeaders DefaultRequestHeaders { get; }
         Uri BaseAddress { get; set; }

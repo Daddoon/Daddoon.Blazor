@@ -16,7 +16,7 @@ namespace Daddoon.Blazor.Services.Impl
 
         public override Task<T> GetJsonAsync<T>(string requestUri)
         {
-            string result = RegisteredFunction.Invoke<string>("miniGetJsonAsync", BaseAddress + requestUri);
+            string result = RegisteredFunction.Invoke<string>("daddoon_jQuery_GetJsonAsync", BaseAddress + requestUri);
             return Task.FromResult(JsonUtil.Deserialize<T>(result));
         }
     }
