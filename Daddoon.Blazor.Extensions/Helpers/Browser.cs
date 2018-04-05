@@ -4,10 +4,30 @@ using System.Timers;
 
 namespace Daddoon.Blazor.Helpers
 {
+    public enum RenderingEngine : int
+    {
+        Unknown = 0,
+        WebKit = 1,
+        Blink = 2,
+        Gecko = 3,
+        MSIE = 4,
+        MSEdge = 5,
+    }
+
+    public enum BrowserFamily : int
+    {
+        Other = 0,
+        InternetExplorer = 1,
+        InternetExplorer11 = 2,
+        Edge = 3
+    }
+
     public static class Browser
     {
         static Browser()
         {
+            //Initializing IHttpClient from Daddoon.Blazor
+            
         }
 
         #region Alert
@@ -187,5 +207,77 @@ namespace Daddoon.Blazor.Helpers
         }
 
         #endregion
+
+        /// <summary>
+        /// Get current browser metadata
+        /// Bindings: Bowser.js 1.9.3
+        /// </summary>
+        public static class Platform
+        {
+            private static BrowserFamily? _browserFamily;
+            public static BrowserFamily BrowserFamily
+            {
+                get
+                {
+                    if (_browserFamily == null)
+                    {
+                        if (Name == "Internet Explorer")
+                        {
+                            _browserFamily = BrowserFamily.InternetExplorer;
+                            if (Version == "11.0")
+                            {
+                                _browserFamily = BrowserFamily.InternetExplorer11;
+                            }
+                        }
+                        else if (Name == "Microsoft Edge")
+                        {
+                            _browserFamily = BrowserFamily.Edge;
+                        }
+                        else
+                            _browserFamily = BrowserFamily.Other;
+                    }
+
+                    return _browserFamily != null ? (BrowserFamily)_browserFamily : BrowserFamily.Other;
+                }
+            }
+
+            private static RenderingEngine? _renderingEngine;
+            public static RenderingEngine RenderingEngine
+            {
+                get
+                {
+                    if (_renderingEngine == null)
+                    {
+                        int val = RegisteredFunction.Invoke<int>("daddoon_bowser_renderingengine");
+                        _renderingEngine = (RenderingEngine)val;
+                    }
+                    return _renderingEngine != null ? (RenderingEngine)_renderingEngine: RenderingEngine.Unknown;
+                }
+            }
+
+            public static string UserAgent
+            {
+                get
+                {
+                    return RegisteredFunction.Invoke<string>("daddoon_bowser_useragent");
+                }
+            }
+
+            public static string Name
+            {
+                get
+                {
+                    return RegisteredFunction.Invoke<string>("daddoon_bowser_name");
+                }
+            }
+
+            public static string Version
+            {
+                get
+                {
+                    return RegisteredFunction.Invoke<string>("daddoon_bowser_version");
+                }
+            }
+        }
     }
 }

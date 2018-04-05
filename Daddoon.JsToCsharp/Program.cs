@@ -71,9 +71,11 @@ namespace Daddoon.JsToCsharp
 
             string addedContent = sb.ToString();
 
-            string output = System.Text.RegularExpressions.Regex.Replace(outputFileContent, $"#region {inserTag}.*?#endregion {inserTag}", $"#region {inserTag}\n{addedContent}\n#endregion {inserTag}", System.Text.RegularExpressions.RegexOptions.Singleline);
+            outputFileContent = System.Text.RegularExpressions.Regex.Replace(outputFileContent, $"#region {inserTag}.*?#endregion", $"#region {inserTag}\n#endregion", System.Text.RegularExpressions.RegexOptions.Singleline);
 
-            File.WriteAllText(outputFile, output);
+            outputFileContent = outputFileContent.Replace($"#region {inserTag}\n#endregion", $"#region {inserTag}\n{addedContent}\n#endregion");
+
+            File.WriteAllText(outputFile, outputFileContent);
         }
     }
 }
