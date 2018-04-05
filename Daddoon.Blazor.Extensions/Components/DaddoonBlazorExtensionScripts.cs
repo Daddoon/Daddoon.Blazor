@@ -45,19 +45,16 @@ function daddoon_dispatchTask(taskId, result) {
 }
 
 Blazor.registerFunction('daddoon_jQuery_GetJsonAsync', function (taskId, requestUri) {
-    debugger;
-    var resultValue = d$.ajax({
+    d$.ajax({
         dataType: ""text"",
         type: ""GET"",
         url: requestUri,
         data: {},
         async: true,
         success: function (data) {
-            debugger;
             daddoon_dispatchTask(taskId, data);
         },
         error: function () {
-            debugger;
             daddoon_dispatchTask(taskId, null);
             console.log(""error occured in jQuery_GetJsonAsync for taskId: "" + taskId);
         }

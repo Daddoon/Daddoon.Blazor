@@ -46,9 +46,13 @@ namespace Daddoon.Blazor.Services.Impl
             {
                 if (_taskDico.ContainsKey(id))
                 {
+                    var result = _taskDico[id].result;
+
+                    //Remove current referenced task reference as it's a completed callback
+                    _taskDico.Remove(id);
                     try
                     {
-                        return JsonUtil.Deserialize<T>(_taskDico[id].result);
+                        return JsonUtil.Deserialize<T>(result);
                     }
                     catch (Exception ex)
                     {
