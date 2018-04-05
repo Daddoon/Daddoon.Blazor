@@ -18,10 +18,6 @@ namespace Daddoon.Blazor.Helpers
         {
             var client = serviceProvider.GetService(typeof(HttpClient)) as HttpClient;
 
-            //TODO: TO REMOVE DEBUG
-            return new IEHttpClient(client);
-            //TODO: TO REMOVE!!!
-
             //Initializing IHttpClient from Daddoon.Blazor
             if (Browser.Platform.BrowserFamily == BrowserFamily.InternetExplorer
                 || Browser.Platform.BrowserFamily == BrowserFamily.InternetExplorer11)
