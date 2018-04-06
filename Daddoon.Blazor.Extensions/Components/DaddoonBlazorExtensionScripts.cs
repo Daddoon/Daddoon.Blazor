@@ -27,9 +27,9 @@ builder.AddContent(1, @"/*!
 d$ = jQuery.noConflict(true);
 
 const daddoon_assemblyName = 'Daddoon.Blazor';
-const daddoon_dispatcher_namespace = 'Daddoon.Blazor.Services.Impl';
-const daddoon_dispatcher_typeName = 'IEHttpClient';
-const daddoon_dispatcher_methodName = 'TaskDispatcher';
+const daddoon_dispatcher_namespace = 'Daddoon.Blazor.Services.Impl.Internal';
+const daddoon_dispatcher_typeName = 'TaskDispatcher';
+const daddoon_dispatcher_methodName = 'Dispatch';
 
 const taskDispatcher = Blazor.platform.findMethod(
     daddoon_assemblyName,

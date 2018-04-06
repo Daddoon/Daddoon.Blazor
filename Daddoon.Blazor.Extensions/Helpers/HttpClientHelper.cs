@@ -10,25 +10,23 @@ namespace Daddoon.Blazor.Helpers
     public static class HttpClientHelper
     {
         /// <summary>
-        /// Return the IHttpClient implementation
-        /// Actually, return the standard behavior, and a some fallback behavior for Internet Explorer
+        /// Return the standard System.Net.HttpClient implementation, wrapped in the BaseHttpClient class
         /// </summary>
         /// <returns></returns>
-        public static IHttpClient GetImplementation(IServiceProvider serviceProvider)
+        public static IHttpClient GetStandardImplementation(IServiceProvider serviceProvider)
         {
             var client = serviceProvider.GetService(typeof(HttpClient)) as HttpClient;
+            return new BaseHttpClient(client);
+        }
 
-            //Initializing IHttpClient from Daddoon.Blazor
-            if (Browser.Platform.BrowserFamily == BrowserFamily.InternetExplorer
-                || Browser.Platform.BrowserFamily == BrowserFamily.InternetExplorer11)
-            {
-                Console.WriteLine("Internet Explorer detected, fallbacking some HttpClient implementation...");
-                return new IEHttpClient(client);
-            }
-            else
-            {
-                return new BaseHttpClient(client);
-            }
+        /// <summary>
+        /// Return the jQuery Ajax implementation (using jQuery 3.3.1)
+        /// </summary>
+        /// <returns></returns>
+        public static IHttpClient GetjQueryImplementation(IServiceProvider serviceProvider)
+        {
+            var client = serviceProvider.GetService(typeof(HttpClient)) as HttpClient;
+            return new jQueryHttpClient(client);
         }
     }
 }
