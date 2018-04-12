@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Daddoon.Blazor.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,13 +10,9 @@ using System.Threading.Tasks;
 
 namespace Daddoon.Blazor.Services
 {
-    public interface IHttpClient : IDisposable
+    public interface IHttpClient : IHttpClientSafe, IDisposable
     {
-        HttpRequestHeaders DefaultRequestHeaders { get; }
-        Uri BaseAddress { get; set; }
         long MaxResponseContentBufferSize { get; set; }
-        TimeSpan Timeout { get; set; }
-        void CancelPendingRequests();
         Task<HttpResponseMessage> DeleteAsync(Uri requestUri, CancellationToken cancellationToken);
         Task<HttpResponseMessage> DeleteAsync(string requestUri, CancellationToken cancellationToken);
         Task<HttpResponseMessage> DeleteAsync(string requestUri);
@@ -42,6 +39,7 @@ namespace Daddoon.Blazor.Services
         Task<string> GetStringAsync(string requestUri);
 
         Task<string> GetStringAsync(Uri requestUri);
+
         Task<HttpResponseMessage> PostAsync(string requestUri, HttpContent content);
 
         Task<HttpResponseMessage> PostAsync(string requestUri, HttpContent content, CancellationToken cancellationToken);
@@ -67,12 +65,14 @@ namespace Daddoon.Blazor.Services
         Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken);
 
         Task<T> GetJsonAsync<T>(string requestUri);
+
         Task PostJsonAsync(string requestUri, object content);
+
         Task<T> PostJsonAsync<T>(string requestUri, object content);
+
         Task PutJsonAsync(string requestUri, object content);
         Task<T> PutJsonAsync<T>(string requestUri, object content);
         Task SendJsonAsync(HttpMethod method, string requestUri, object content);
         Task<T> SendJsonAsync<T>(HttpMethod method, string requestUri, object content);
-
     }
 }

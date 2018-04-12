@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Blazor.Browser.Interop;
+﻿using Daddoon.Blazor.Services.Impl.Internal;
+using Microsoft.AspNetCore.Blazor;
+using Microsoft.AspNetCore.Blazor.Browser.Interop;
 using System;
 using System.Timers;
 
@@ -202,6 +204,114 @@ namespace Daddoon.Blazor.Helpers
 
             tm.Elapsed += tmElapsed;
             tm.Start();
+        }
+
+        #endregion
+
+        #region Cookies
+
+        /// <summary>
+        /// Cookie implementation: js-cookie => https://github.com/js-cookie/js-cookie
+        /// Expiration is in days
+        /// </summary>
+        public static class Cookies
+        {
+            #region SET
+
+            private static double? GetDaysFromDateTime(DateTime? expiration)
+            {
+                double? nbDays = null;
+
+                if (expiration != null)
+                {
+                    nbDays = ((DateTime)expiration - DateTime.Now).TotalDays;
+                }
+
+                return nbDays;
+            }
+
+            public static bool Set(string name, string value, double? expiration = null, string path = null, string domain = null, bool? secure = null)
+            {
+                if (!RegisteredFunctionExtension.TryInvoke(out bool val, "daddoon_cookie_set", name, value, expiration, path, domain, secure))
+                {
+                    ExceptionLogger.LogException("An error occured while trying to call daddoon_cookie_set", new InvalidOperationException());
+                    return false;
+                }
+
+                return val;
+            }
+
+            public static bool Set(string name, string value, DateTime? expiration = null, string path = null, string domain = null, bool? secure = null)
+            {
+                return Set(name, value, GetDaysFromDateTime(expiration), path, domain, secure);
+            }
+
+            public static bool Set<T>(string name, T value, double? expiration = null, string path = null, string domain = null, bool? secure = null)
+            {
+                string json = null;
+
+                if (value != null)
+                    json = JsonUtil.Serialize(value);
+
+                return Set(name, json, expiration, path, domain, secure);
+            }
+
+            public static bool Set<T>(string name, T value, DateTime? expiration = null, string path = null, string domain = null, bool? secure = null)
+            {
+                return Set(name, value, GetDaysFromDateTime(expiration), path, domain, secure);
+            }
+
+            #endregion
+
+            #region GET
+
+            public static string Get(string name)
+            {
+                if (!RegisteredFunctionExtension.TryInvoke(out string val, "daddoon_cookie_get", name))
+                {
+                    ExceptionLogger.LogException("An error occured while trying to call daddoon_cookie_get", new InvalidOperationException());
+                    return null;
+                }
+
+                return val;
+            }
+
+            public static T Get<T>(string name) where T : new()
+            {
+                T result = default;
+                string json = Get(name);
+
+                if (!string.IsNullOrEmpty(json))
+                {
+                    try
+                    {
+                        result = JsonUtil.Deserialize<T>(json);
+                    }
+                    catch (Exception ex)
+                    {
+                        ExceptionLogger.LogException("An error occured while trying to deserialize the cookie", ex);
+                    }
+                }
+
+                return result;
+            }
+
+            #endregion
+
+            #region REMOVE
+
+            public static bool Remove(string name, string path = null, string domain = null)
+            {
+                if (!RegisteredFunctionExtension.TryInvoke(out bool val, "daddoon_cookie_remove", name, path, domain))
+                {
+                    ExceptionLogger.LogException("An error occured while trying to call daddoon_cookie_remove", new InvalidOperationException());
+                    return false;
+                }
+
+                return val;
+            }
+
+            #endregion
         }
 
         #endregion

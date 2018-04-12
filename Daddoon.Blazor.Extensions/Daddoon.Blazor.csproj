@@ -8,10 +8,12 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>bin\</OutputPath>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>bin\</OutputPath>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -35,7 +37,7 @@
   </Target>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="&quot;$(ProjectDir)Tool\Daddoon.JsToCsharp.exe&quot;  BLAZOR_ZONE &quot;$(ProjectDir)Scripts\bowser.min.js&quot; &quot;$(ProjectDir)Scripts\jquery-3.3.1.min.js&quot; &quot;$(ProjectDir)Scripts\DaddoonBlazorScripts.js&quot; &quot;$(ProjectDir)Components\DaddoonBlazorExtensionScripts.cs&quot;" />
+    <Exec Command="&quot;$(ProjectDir)Tool\Daddoon.JsToCsharp.exe&quot;  BLAZOR_ZONE &quot;$(ProjectDir)Scripts\bowser.min.js&quot; &quot;$(ProjectDir)Scripts\jquery-3.3.1.min.js&quot; &quot;$(ProjectDir)Scripts\js.cookie.js&quot; &quot;$(ProjectDir)Scripts\DaddoonBlazorScripts.js&quot; &quot;$(ProjectDir)Components\DaddoonBlazorExtensionScripts.cs&quot;" />
   </Target>
 
 </Project>

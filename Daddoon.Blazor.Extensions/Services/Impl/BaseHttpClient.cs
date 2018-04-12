@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Blazor;
+﻿using Daddoon.Blazor.Models;
+using Daddoon.Blazor.Services.Impl.Internal;
+using Microsoft.AspNetCore.Blazor;
 using System;
 using System.IO;
 using System.Net.Http;
@@ -215,6 +217,86 @@ namespace Daddoon.Blazor.Services.Impl
         public virtual Task<T> SendJsonAsync<T>(HttpMethod method, string requestUri, object content)
         {
             return _http.SendJsonAsync<T>(method, requestUri, content);
+        }
+
+        public virtual Task<HttpResult<T>> GetJsonAsyncSafe<T>(string requestUri)
+        {
+            return _http.GetJsonAsyncSafe<T>(requestUri);
+        }
+
+        public virtual Task<HttpResult<T>> GetJsonAsyncSafe<T>(Uri requestUri)
+        {
+            return _http.GetJsonAsyncSafe<T>(requestUri);
+        }
+
+        public virtual Task<HttpResult> PostJsonAsyncSafe(string requestUri, object content)
+        {
+            return _http.PostJsonAsyncSafe(requestUri, content);
+        }
+
+        public virtual Task<HttpResult> PostJsonAsyncSafe(Uri requestUri, object content)
+        {
+            return _http.PostJsonAsyncSafe(requestUri, content);
+        }
+
+        public virtual Task<HttpResult<T>> PostJsonAsyncSafe<T>(string requestUri, object content)
+        {
+            return _http.PostJsonAsyncSafe<T>(requestUri, content);
+        }
+
+        public virtual Task<HttpResult<T>> PostJsonAsyncSafe<T>(Uri requestUri, object content)
+        {
+            return _http.PostJsonAsyncSafe<T>(requestUri, content);
+        }
+
+        public virtual Task<HttpResult> PutJsonAsyncSafe(string requestUri, object content)
+        {
+            return _http.PutJsonAsyncSafe(requestUri, content);
+        }
+
+        public virtual Task<HttpResult> PutJsonAsyncSafe(Uri requestUri, object content)
+        {
+            return _http.PutJsonAsyncSafe(requestUri, content);
+        }
+
+        public virtual Task<HttpResult<T>> PutJsonAsyncSafe<T>(string requestUri, object content)
+        {
+            return _http.PutJsonAsyncSafe<T>(requestUri, content);
+        }
+
+        public virtual Task<HttpResult<T>> PutJsonAsyncSafe<T>(Uri requestUri, object content)
+        {
+            return _http.PutJsonAsyncSafe<T>(requestUri, content);
+        }
+
+        public virtual Task<HttpResult> SendJsonAsyncSafe(HttpMethod method, string requestUri, object content)
+        {
+            return _http.SendJsonAsyncSafe(method, requestUri, content);
+        }
+
+        public virtual Task<HttpResult> SendJsonAsyncSafe(HttpMethod method, Uri requestUri, object content)
+        {
+            return _http.SendJsonAsyncSafe(method, requestUri, content);
+        }
+
+        public virtual Task<HttpResult<T>> SendJsonAsyncSafe<T>(HttpMethod method, string requestUri, object content)
+        {
+            return _http.SendJsonAsyncSafe<T>(method, requestUri, content);
+        }
+
+        public virtual Task<HttpResult<T>> SendJsonAsyncSafe<T>(HttpMethod method, Uri requestUri, object content)
+        {
+            return _http.SendJsonAsyncSafe<T>(method, requestUri, content);
+        }
+
+        public virtual Task<HttpResult<string>> GetStringAsyncSafe(string requestUri)
+        {
+            return _http.GetStringAsyncSafe(requestUri);
+        }
+
+        public virtual Task<HttpResult<string>> GetStringAsyncSafe(Uri requestUri)
+        {
+            return _http.GetStringAsyncSafe(requestUri);
         }
     }
 }
