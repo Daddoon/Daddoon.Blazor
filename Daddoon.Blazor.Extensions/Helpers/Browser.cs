@@ -241,7 +241,7 @@ namespace Daddoon.Blazor.Helpers
                 return val;
             }
 
-            public static bool Set(string name, string value, DateTime? expiration = null, string path = null, string domain = null, bool? secure = null)
+            public static bool Set(string name, string value, DateTime? expiration, string path = null, string domain = null, bool? secure = null)
             {
                 return Set(name, value, GetDaysFromDateTime(expiration), path, domain, secure);
             }
@@ -251,12 +251,14 @@ namespace Daddoon.Blazor.Helpers
                 string json = null;
 
                 if (value != null)
+                {
                     json = JsonUtil.Serialize(value);
+                }
 
                 return Set(name, json, expiration, path, domain, secure);
             }
 
-            public static bool Set<T>(string name, T value, DateTime? expiration = null, string path = null, string domain = null, bool? secure = null)
+            public static bool Set<T>(string name, T value, DateTime? expiration, string path = null, string domain = null, bool? secure = null)
             {
                 return Set(name, value, GetDaysFromDateTime(expiration), path, domain, secure);
             }
@@ -312,6 +314,142 @@ namespace Daddoon.Blazor.Helpers
             }
 
             #endregion
+        }
+
+        #endregion
+
+        #region LocalStorage
+
+        public static class LocalStorage
+        {
+            public static bool Set(string name, string value)
+            {
+                if (!RegisteredFunctionExtension.TryInvoke(out bool val, "daddoon_localstorage_set", name, value))
+                {
+                    ExceptionLogger.LogException("An error occured while trying to call daddoon_localstorage_set", new InvalidOperationException());
+                    return false;
+                }
+
+                return val;
+            }
+
+            public static bool Set<T>(string name, T value)
+            {
+                string json = null;
+
+                try
+                {
+                    json = JsonUtil.Serialize(value);
+                }
+                catch (Exception)
+                {
+                    ExceptionLogger.LogException("An error occured while trying to serialize data in LocalStorage.Set<T>", new InvalidOperationException());
+                    return false;
+                }
+
+                return Set(name, json);
+            }
+
+            public static string Get(string name)
+            {
+
+                if (!RegisteredFunctionExtension.TryInvoke(out string val, "daddoon_localstorage_get", name))
+                {
+                    ExceptionLogger.LogException("An error occured while trying to call daddoon_localstorage_get", new InvalidOperationException());
+                    return null;
+                }
+
+                return val;
+            }
+
+            public static T Get<T>(string name)
+            {
+                string result = Get(name);
+                if (result == null)
+                    return default;
+
+                try
+                {
+                    T value = JsonUtil.Deserialize<T>(result);
+                    return value;
+                }
+                catch (Exception)
+                {
+                    ExceptionLogger.LogException("An error occured while trying to deserialize data in LocalStorage.Get<T>", new InvalidOperationException());
+                    return default;
+                }
+            }
+
+            public static void Remove(string name)
+            {
+                Set(name, null);
+            }
+        }
+
+        public static class SessionStorage
+        {
+            public static bool Set(string name, string value)
+            {
+                if (!RegisteredFunctionExtension.TryInvoke(out bool val, "daddoon_sessionstorage_set", name, value))
+                {
+                    ExceptionLogger.LogException("An error occured while trying to call daddoon_sessionstorage_set", new InvalidOperationException());
+                    return false;
+                }
+
+                return val;
+            }
+
+            public static bool Set<T>(string name, T value)
+            {
+                string json = null;
+
+                try
+                {
+                    json = JsonUtil.Serialize(value);
+                }
+                catch (Exception)
+                {
+                    ExceptionLogger.LogException("An error occured while trying to serialize data in SessionStorage.Set<T>", new InvalidOperationException());
+                    return false;
+                }
+
+                return Set(name, json);
+            }
+
+            public static string Get(string name)
+            {
+
+                if (!RegisteredFunctionExtension.TryInvoke(out string val, "daddoon_sessionstorage_get", name))
+                {
+                    ExceptionLogger.LogException("An error occured while trying to call daddoon_sessionstorage_get", new InvalidOperationException());
+                    return null;
+                }
+
+                return val;
+            }
+
+            public static T Get<T>(string name)
+            {
+                string result = Get(name);
+                if (result == null)
+                    return default;
+
+                try
+                {
+                    T value = JsonUtil.Deserialize<T>(result);
+                    return value;
+                }
+                catch (Exception)
+                {
+                    ExceptionLogger.LogException("An error occured while trying to deserialize data in SessionStorage.Get<T>", new InvalidOperationException());
+                    return default;
+                }
+            }
+
+            public static void Remove(string name)
+            {
+                Set(name, null);
+            }
         }
 
         #endregion

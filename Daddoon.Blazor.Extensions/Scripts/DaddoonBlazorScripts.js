@@ -59,6 +59,66 @@ function daddoon_getHttpResultObject(data, code, success, clientError) {
     };
 }
 
+Blazor.registerFunction('daddoon_localstorage_set', function (name, value) {
+    try {
+        if (name == null || name == undefined || value == undefined) //value == null can be a valid value
+            return false;
+
+        localStorage.setItem(name, value);
+        return true;
+
+        return true;
+    } catch (e) {
+        return false;
+    }
+});
+
+Blazor.registerFunction('daddoon_localstorage_get', function (name) {
+
+    try {
+        if (name == null)
+            return null;
+
+        var result = localStorage.getItem(name);
+        if (result == undefined)
+            return null;
+        return result;
+    } catch (e) {
+        return null;
+    }
+});
+
+Blazor.registerFunction('daddoon_sessionstorage_set', function (name, value) {
+    try {
+        if (name == null || name == undefined || value == undefined) //value == null can be a valid value
+            return false;
+
+        sessionStorage.setItem(name, value);
+        return true;
+
+        return true;
+    } catch (e) {
+        return false;
+    }
+});
+
+Blazor.registerFunction('daddoon_sessionstorage_get', function (name) {
+
+    try {
+        if (name == null)
+            return null;
+
+        var result = sessionStorage.getItem(name);
+        if (result == undefined)
+            return null;
+        return result;
+    } catch (e) {
+        return null;
+    }
+});
+
+
+
 Blazor.registerFunction('daddoon_cookie_set', function (name, value, expires, path, domain, secure) {
     try {
         if (name == null || name == undefined || value == undefined) //value == null can be a valid value
@@ -70,13 +130,13 @@ Blazor.registerFunction('daddoon_cookie_set', function (name, value, expires, pa
         }
 
         var cookieParam = {};
-        if (expire != null)
+        if (expires != null)
             cookieParam.expires = expires;
-        if (expire != null)
+        if (path != null)
             cookieParam.path = path;
-        if (expire != null)
+        if (domain != null)
             cookieParam.domain = domain;
-        if (expire != null)
+        if (secure != null)
             cookieParam.secure = secure;
 
         dCookies.set(name, value, cookieParam);
@@ -132,6 +192,9 @@ Blazor.registerFunction('daddoon_jQuery_SendAsync', function (taskId, httpMethod
 
     metadata.timeout = daddoon_timeoutValidator(metadata.timeout);
 
+    if (metadata.headers == null)
+        metadata.headers = { };
+
     var dataContent = null;
     var dataType = "text";
 
@@ -149,6 +212,7 @@ Blazor.registerFunction('daddoon_jQuery_SendAsync', function (taskId, httpMethod
         contentType: metadata.contentType,
         type: httpMethod,
         url: requestUri,
+        headers: metadata.headers,
         data: dataContent,
         async: true,
         success: function (data, textStatus, xhr) {

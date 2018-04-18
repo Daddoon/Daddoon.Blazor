@@ -17,17 +17,38 @@ namespace Daddoon.Blazor.Helpers
 
         /// <summary>
         /// Add the standard System.Net.HttpClient implementation, wrapped in the BaseHttpClient class when calling IHttpClient interface in dependency services. The IHttpClientSafe interface implementation is also set in the depdency services
+        /// 
+        /// You can also overload the Service injection with your own overload, by providing a delegate (Input IHttpClient created by this service, output your own implementation)
+        /// 
         /// </summary>
         /// <param name="serviceCollection"></param>
-        public static void AddIHttpClientStandardImplementation(this IServiceCollection serviceCollection)
+        public static void AddIHttpClientStandardImplementation(this IServiceCollection serviceCollection, Func<IHttpClient, IHttpClient> optionHttpClient = null, Func<IHttpClientSafe, IHttpClientSafe> optionHttpClientSafe = null)
         {
-            serviceCollection.Add(ServiceDescriptor.Singleton((option) => GetStandardImplementation(option)));
-            serviceCollection.Add(ServiceDescriptor.Singleton<IHttpClientSafe>((option) => option.GetService(typeof(IHttpClient)) as IHttpClient));
+            if (optionHttpClient == null)
+            {
+                serviceCollection.Add(ServiceDescriptor.Singleton((option) => GetStandardImplementation(option)));
+            }
+            else
+            {
+                serviceCollection.Add(ServiceDescriptor.Singleton((option) => optionHttpClient(GetStandardImplementation(option))));
+            }
+
+            if (optionHttpClientSafe == null)
+            {
+                serviceCollection.Add(ServiceDescriptor.Singleton<IHttpClientSafe>((option) => option.GetService(typeof(IHttpClient)) as IHttpClient));
+            }
+            else
+            {
+                serviceCollection.Add(ServiceDescriptor.Singleton<IHttpClientSafe>((option) => optionHttpClientSafe(option.GetService(typeof(IHttpClient)) as IHttpClient)));
+            }
+
         }
 
         /// <summary>
         /// Add the the jQuery Ajax implementation (using jQuery 3.3.1) . The IHttpClientSafe interface implementation is also set in the depdency services
         /// Warning: Not yet implemented method will implicitly fallback to the System.Net.HttpClient implementation
+        /// 
+        /// You can also overload the Service injection with your own overload, by providing a delegate (Input IHttpClient created by this service, output your own implementation)
         /// 
         /// Supported implementations:
         /// - Task<string> GetStringAsync(Uri requestUri)
@@ -36,10 +57,25 @@ namespace Daddoon.Blazor.Helpers
         /// - Task<T> PostJsonAsync<T>(string requestUri, object content)
         /// </summary>
         /// <param name="serviceCollection"></param>
-        public static void AddIHttpClientJQueryImplementation(this IServiceCollection serviceCollection)
+        public static void AddIHttpClientJQueryImplementation(this IServiceCollection serviceCollection, Func<IHttpClient, IHttpClient> optionHttpClient = null, Func<IHttpClientSafe, IHttpClientSafe> optionHttpClientSafe = null)
         {
-            serviceCollection.Add(ServiceDescriptor.Singleton((option) => GetjQueryImplementation(option)));
-            serviceCollection.Add(ServiceDescriptor.Singleton<IHttpClientSafe>((option) => option.GetService(typeof(IHttpClient)) as IHttpClient));
+            if (optionHttpClient == null)
+            {
+                serviceCollection.Add(ServiceDescriptor.Singleton((option) => GetjQueryImplementation(option)));
+            }
+            else
+            {
+                serviceCollection.Add(ServiceDescriptor.Singleton((option) => optionHttpClient(GetjQueryImplementation(option))));
+            }
+
+            if (optionHttpClientSafe == null)
+            {
+                serviceCollection.Add(ServiceDescriptor.Singleton<IHttpClientSafe>((option) => option.GetService(typeof(IHttpClient)) as IHttpClient));
+            }
+            else
+            {
+                serviceCollection.Add(ServiceDescriptor.Singleton<IHttpClientSafe>((option) => optionHttpClientSafe(option.GetService(typeof(IHttpClient)) as IHttpClient)));
+            }
         }
 
         /// <summary>

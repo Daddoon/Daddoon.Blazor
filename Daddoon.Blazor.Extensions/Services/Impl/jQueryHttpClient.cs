@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace Daddoon.Blazor.Services.Impl
@@ -28,10 +29,20 @@ namespace Daddoon.Blazor.Services.Impl
             public RequestMetadata()
             {
                 contentType = ContentType.Default;
+                headers = new Dictionary<string, string>();
             }
 
             public double timeout { get; set; }
             public string contentType { get; set; }
+
+            public Dictionary<string, string> headers { get; set; }
+        }
+
+        private Dictionary<string, string>  ParseHeaders(HttpRequestHeaders RequestHeaders)
+        {
+            Dictionary<string, string> rh = RequestHeaders.ToDictionary(a => a.Key, a => string.Join(";", a.Value));
+
+            return rh;
         }
 
         public jQueryHttpClient(HttpClient http) : base(http)
@@ -103,7 +114,8 @@ namespace Daddoon.Blazor.Services.Impl
 
             RegisteredFunction.Invoke<string>("daddoon_jQuery_SendAsync", id, WebRequestMethods.Http.Get, absoluteURI, new RequestMetadata()
             {
-                timeout = Timeout.TotalMilliseconds
+                timeout = Timeout.TotalMilliseconds,
+                headers = ParseHeaders(DefaultRequestHeaders)
             }, null);
             return futurTask;
         }
@@ -219,7 +231,8 @@ namespace Daddoon.Blazor.Services.Impl
                 RegisteredFunction.Invoke<string>("daddoon_jQuery_SendAsync", id, method.ToWebRequestMethods(), absoluteURI, new RequestMetadata()
                 {
                     contentType = ContentType.Json,
-                    timeout = Timeout.TotalMilliseconds
+                    timeout = Timeout.TotalMilliseconds,
+                    headers = ParseHeaders(DefaultRequestHeaders)
                 }, contentJSON);
                 return futurTask;
             }
