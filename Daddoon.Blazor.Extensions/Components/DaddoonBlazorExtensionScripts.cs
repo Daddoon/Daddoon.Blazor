@@ -249,14 +249,45 @@ function daddoon_getHttpResultObject(data, code, success, clientError) {
     };
 }
 
+Blazor.registerFunction('daddoon_location_reload', function (forceGet) {
+    try {
+        if (forceGet == null)
+            forceGet = false;
+
+        location.reload(forceGet);
+        return true;
+    } catch (e) {
+        return false;
+    }
+});
+
+Blazor.registerFunction('daddoon_localstorage_clear', function () {
+    try {
+        localStorage.clear();
+        return true;
+    } catch (e) {
+        return false;
+    }
+});
+
+Blazor.registerFunction('daddoon_localstorage_remove', function (name) {
+    try {
+        if (name == null || name == undefined)
+            return false;
+
+        localStorage.removeItem(name);
+        return true;
+    } catch (e) {
+        return false;
+    }
+});
+
 Blazor.registerFunction('daddoon_localstorage_set', function (name, value) {
     try {
         if (name == null || name == undefined || value == undefined) //value == null can be a valid value
             return false;
 
         localStorage.setItem(name, value);
-        return true;
-
         return true;
     } catch (e) {
         return false;
@@ -278,14 +309,33 @@ Blazor.registerFunction('daddoon_localstorage_get', function (name) {
     }
 });
 
+Blazor.registerFunction('daddoon_sessionstorage_clear', function () {
+    try {
+        sessionStorage.clear();
+        return true;
+    } catch (e) {
+        return false;
+    }
+});
+
+Blazor.registerFunction('daddoon_sessionstorage_remove', function (name) {
+    try {
+        if (name == null || name == undefined)
+            return false;
+
+        sessionStorage.removeItem(name);
+        return true;
+    } catch (e) {
+        return false;
+    }
+});
+
 Blazor.registerFunction('daddoon_sessionstorage_set', function (name, value) {
     try {
         if (name == null || name == undefined || value == undefined) //value == null can be a valid value
             return false;
 
         sessionStorage.setItem(name, value);
-        return true;
-
         return true;
     } catch (e) {
         return false;
