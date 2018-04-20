@@ -320,5 +320,5 @@ Blazor.registerFunction("daddoon_svg_replace_content", function (tempId, dclass,
     if (dstyle != null && dstyle != undefined)
         newSVG.attr("style", dstyle);
 
-    d$("svg[svg-id='" + tempId + "']").parent().replaceWith(newSVG);
+    d$("svg[svg-id='" + tempId + "']").replaceWith(newSVG);
 });

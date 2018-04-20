@@ -482,7 +482,7 @@ namespace Daddoon.Blazor.Helpers
         {
             public static bool Reload(bool forceGet = false)
             {
-                if (!RegisteredFunctionExtension.TryInvoke(out int val, "daddoon_location_reload", forceGet))
+                if (!RegisteredFunctionExtension.TryInvoke(out bool val, "daddoon_location_reload", forceGet))
                 {
                     ExceptionLogger.LogException("An error occured while trying to call daddoon_location_reload", new InvalidOperationException());
                     return false;
