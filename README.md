@@ -85,14 +85,20 @@ Based on js.cookie.js, with the corresponding overloads, you can stock string or
 
 Set:
 
+```csharp
 Browser.Cookies.Set("myCookie", "myValue");
 Browser.Cookies.Set<T>("myCookie", myObject); //Showing the generic type here is just for readability
+```
 
 Get:
+```csharp
 Browser.Cookies.Get("myCookie");
+```
 
 Remove:
+```csharp
 Browser.Cookies.Remove("myCookie");
+```
 
 **Local Storage**
 
