@@ -4,8 +4,6 @@
 
 # Installation
 
-TODO: Add NuGet package
-
 In your Program.cs file, when instanciating your BrowserRenderer class, you should add the **DaddoonBlazorExtensionScripts** component to your DOM.
 
 ```csharp
